@@ -9,15 +9,27 @@ static const char unknown_str[] = "n/a";
 /* maximum output string length */
 #define MAXLEN 2048
 
+/* battery levels to notify - add any levels you want to receive notification for (in percent) */
+const int notifiable_levels[] = {
+    // 20,
+    10
+    // 5,
+};
+const size_t notifiable_levels_count = sizeof(notifiable_levels) / sizeof(notifiable_levels[0]);
+
+
 /*
  * function            description                     argument (example)
  *
  * battery_perc        battery percentage              battery name (BAT0)
  *                                                     NULL on OpenBSD/FreeBSD
+ * battery_notify      linux battery notifications     battery name (BAT0)
+ *                                                     OpenBSD/FreeBSD not supported
  * battery_remaining   battery remaining HH:MM         battery name (BAT0)
  *                                                     NULL on OpenBSD/FreeBSD
  * battery_state       battery charging state          battery name (BAT0)
  *                                                     NULL on OpenBSD/FreeBSD
+ * dyn_battery         displays the name, state and capformat string (%u, %s, %s)
  * cat                 read arbitrary file             path
  * cpu_freq            cpu frequency in MHz            NULL
  * cpu_perc            cpu usage in percent            NULL
@@ -65,12 +77,14 @@ static const char unknown_str[] = "n/a";
  * wifi_perc           WiFi signal in percent          interface name (wlan0)
  */
 static const struct arg args[] = {
-	/* function format          argument */
-    { cpu_perc,     " | CPU: %s",        NULL     },
-    { ram_perc,     " RAM: %s",          NULL     },
-    { battery_perc, " | BAT0: %s",        "BAT0"   },
-    { battery_perc, " BAT1: %s",               "BAT1"   },
-    { wifi_essid,   " | %s:",            "wlp3s0" },
-    { wifi_perc,    " %s",               "wlp3s0" },
-	{ datetime,     " | Time: %s |",           "%I:%M"  },
+	/* function       format               argument */
+    { cpu_perc,       " | CPU: %s",        NULL     },
+    { ram_perc,       " RAM: %s",          NULL     },
+    { battery_perc,   " | BAT0: %s",       "BAT0"   },
+    { battery_perc,   " BAT1: %s",         "BAT1"   },
+    { battery_notify, "",                  "BAT0"   },
+    { battery_notify, "",                  "BAT1"   },
+    { wifi_essid,     " | %s:",            "wlp3s0" },
+    { wifi_perc,      " %s",               "wlp3s0" },
+	{ datetime,       " | Time: %s |",     "%I:%M"  },
 };
