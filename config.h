@@ -12,8 +12,8 @@ static const char unknown_str[] = "n/a";
 /* battery levels to notify - add any levels you want to receive notification for (in percent) */
 const int notifiable_levels[] = {
     // 20,
-    10
-    // 5,
+    10,
+    3
 };
 const size_t notifiable_levels_count = sizeof(notifiable_levels) / sizeof(notifiable_levels[0]);
 
